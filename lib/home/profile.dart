@@ -32,9 +32,14 @@ class _ProfileState extends State<Profile> {
             ),
             Padding(
               padding: EdgeInsets.only(left: 25),
-              child: Text('Whislist (0)',
-            style: blackTextStyle.copyWith(
-                  fontSize: 20,
+              child: GestureDetector(
+                onTap: (() {
+                  print("object");
+                }),
+                child: Text('Whislist (0)',
+                          style: blackTextStyle.copyWith(
+                    fontSize: 20,
+                  ),
                 ),
               ),
             ),

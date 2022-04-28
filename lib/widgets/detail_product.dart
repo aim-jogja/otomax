@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:otomax/theme.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:otomax/widgets/category.dart';
 import 'package:otomax/widgets/collections.dart';
 import 'package:otomax/widgets/detail_screen.dart';
@@ -31,8 +32,8 @@ class DetailProduct extends StatelessWidget {
                 itemCount: 8, //banyaknya produk kategori
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2, 
-                  mainAxisSpacing: 20,
-                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 25,
+                  crossAxisSpacing: 12,
                   childAspectRatio: 0.75), 
                 itemBuilder: (context, index) => DetailCard(),
                 ),
@@ -44,18 +45,40 @@ class DetailProduct extends StatelessWidget {
   }
 }
 
-class DetailCard extends StatelessWidget {
+class DetailCard extends StatefulWidget {
+
   const DetailCard({
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<DetailCard> createState() => _DetailCardState();
+}
+
+class _DetailCardState extends State<DetailCard> {
+  Color _iconColor = Colors.black;
+
+  setWhislist(int c) async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setInt('count', 0);
+    var i = prefs.getInt('count');
+    int temp = i!.toInt();
+    temp += c;
+    prefs.setInt('count', temp);
+  }
+
+  getWhislist() async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    int? count = prefs.getInt('count');
+    return count;
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-        padding: EdgeInsets.all(10.0),
+        padding: EdgeInsets.all(5.0),
         decoration: BoxDecoration(
           color: Colors.amber,
           borderRadius: BorderRadius.circular(16)
@@ -63,16 +86,43 @@ class DetailCard extends StatelessWidget {
         child: Image.asset('assets/promo.png'),
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5.0),
+          padding: const EdgeInsets.symmetric(vertical: 2.0),
           child: Text(
             'Enkei Ring 16', 
             style: blackTextStyle.copyWith(fontSize: 20)
             ),
         ),
-        Text(
-          "Rp 1.500.000", 
-          style: TextStyle(fontWeight: FontWeight.bold)
+        Expanded(
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2.0),
+              child: Row(
+                children: [
+                  Text(
+                    "Rp 1.500.000", 
+                    style: TextStyle(fontWeight: FontWeight.bold)
+                    ),
+                  IconButton(
+                    onPressed: (){
+                      if(this._iconColor == Colors.red){
+                        setState(() {
+                            this._iconColor = Colors.black;
+                        });
+                      }else{
+                        setState(() {
+                            this._iconColor = Colors.red;
+                        });
+                      }
+                      
+                      print('this.getWhislist()');
+                    },
+                    padding: EdgeInsets.all(0), 
+                    icon: new Icon(Icons.favorite, color: this._iconColor))
+                ],
+              ),
+            ),
           ),
+        ),
       ],
     );
   }

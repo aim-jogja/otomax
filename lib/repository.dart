@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:otomax/model/rec.dart';
 
 class Repository{
-  final _baseUrl = 'http://192.168.100.12/otomax/getCategory.php';
+  final _baseUrl = 'http://192.168.1.20:8000/getCategory.php';
 
   Future getData() async{
     try {

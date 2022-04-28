@@ -19,8 +19,10 @@ class _CategoryState extends State<Category> {
   Repository repository = Repository();
 
   getData() async{
-    await repository.getData();
-    setState(() {});
+    var temp = await repository.getData();
+    setState(() {
+      this._listRec = temp;
+    });
   }
 
   @override
@@ -38,9 +40,21 @@ class _CategoryState extends State<Category> {
         child: ListView.builder(
           itemCount: _listRec.length,
           itemBuilder: (context, index){
-            return ListTile(
-              title: Text(_listRec[index].merek),
-            );
+            return Card(
+            child: GestureDetector(
+              onTap: (() {
+                Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RecCategory(_listRec[index]),
+                ));
+              }),
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text(_listRec[index].merek, style: TextStyle(fontSize: 21)),
+              ),
+            ),
+          );
           },
         )
          ,
