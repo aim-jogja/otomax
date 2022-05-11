@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class Rec {
   final int id;
   final String merek,foto_merek;

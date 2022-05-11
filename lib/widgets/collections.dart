@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:otomax/widgets/detail_product.dart';
-import 'package:otomax/home/discover.dart';
+import 'package:otomax/model/product.dart';
+import 'package:otomax/repository.dart';
+import 'package:otomax/widgets/product_list.dart';
 
 class Collections extends StatefulWidget {
   Collections({Key? key}) : super(key: key);
@@ -10,6 +11,23 @@ class Collections extends StatefulWidget {
 }
 
 class _CollectionsState extends State<Collections> {
+  Repository repository = Repository();
+  List<ProductModel> recomendList = [];
+  List<ProductModel> promoList = [];
+
+  getProductByRecomendation() async{
+    var result = await repository.getProductByRecomendation();
+    setState(() {
+      recomendList = result;
+    });
+  }
+
+  getProductByPromo() async{
+    var result = await repository.getProductByPromo(1);
+    setState(() {
+      promoList = result;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,10 +39,13 @@ class _CollectionsState extends State<Collections> {
             padding: EdgeInsets.all(10),
             child: GestureDetector(
               onTap: () {
+                setState(() {
+                  getProductByPromo();
+                });
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => DetailProduct(text: 'Promo')));
+                        builder: (context) => ProductList(productList: promoList, text: "Promo")));
               },
               child: ClipRRect(
                   borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -34,12 +55,13 @@ class _CollectionsState extends State<Collections> {
             padding: EdgeInsets.all(10),
             child: GestureDetector(
                 onTap: () {
+                  setState(() {
+                    getProductByRecomendation();
+                  });
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => DetailProduct(
-                                text: 'Recommendation',
-                              )));
+                          builder: (context) => ProductList(productList: recomendList, text: "Recomendation")));
                 },
                 child: ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(10)),

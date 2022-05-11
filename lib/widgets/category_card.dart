@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:otomax/model/rec.dart';
+import 'package:otomax/repository.dart';
 import 'package:otomax/theme.dart';
 
 class RecCategory extends StatelessWidget {
   final Rec rec;
   RecCategory(this.rec);
+  Repository repository = Repository();
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +31,7 @@ class RecCategory extends StatelessWidget {
             padding: EdgeInsets.only(left: 20),
             child: Row(
               children: [
-                // Image.asset(
-                //   rec.foto_merek,
-                //   width: 60,
-                // ),
-                Image.network("http://192.168.1.20:8000/logo.php?name="+rec.foto_merek, width: 60,),
+                Image.network(repository.getBaseUrl("logo.php?name=")+rec.foto_merek, width: 60,),
                 SizedBox(
                   width: 25,
                   height: 25,

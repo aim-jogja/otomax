@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:otomax/theme.dart';
 import 'package:otomax/widgets/category.dart';
 import 'package:otomax/widgets/collections.dart';
-import 'package:otomax/model/rec.dart';
 
 class Judul {
   final String title;

@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
+import 'package:otomax/model/product.dart';
 import 'package:otomax/repository.dart';
-import 'package:otomax/widgets/category_card.dart';
 import 'package:otomax/model/rec.dart';
-import 'package:otomax/widgets/detail_product.dart';
-import 'package:http/http.dart' as http;
+import 'package:otomax/widgets/product_by_category.dart';
 
 class Category extends StatefulWidget {
   Category({Key? key}) : super(key: key);
@@ -16,17 +13,18 @@ class Category extends StatefulWidget {
 
 class _CategoryState extends State<Category> {
   List<Rec> _listRec = [];
+  List<ProductModel> productList = [];
   Repository repository = Repository();
 
   getData() async{
-    var temp = await repository.getData();
+    var temp = await repository.getCategory();
+    //print(temp);
     setState(() {
-      this._listRec = temp;
+      _listRec = temp;
     });
   }
 
   @override
-
   void initState(){
     getData();
     super.initState();
@@ -36,22 +34,21 @@ class _CategoryState extends State<Category> {
     return MaterialApp(
       home: Scaffold(
         body: Center(
-         
         child: ListView.builder(
           itemCount: _listRec.length,
           itemBuilder: (context, index){
             return Card(
             child: GestureDetector(
               onTap: (() {
-                Navigator.push(
-                context,
+                Navigator.of(context, rootNavigator: true).push(
                 MaterialPageRoute(
-                  builder: (context) => RecCategory(_listRec[index]),
+                  //builder: (context) => ProductList(productList: productList, text: _listRec[index].merek,),
+                  builder: (context) => ProductByCategory(id: _listRec[index].id, text: _listRec[index].merek,),
                 ));
               }),
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
-                child: Text(_listRec[index].merek, style: TextStyle(fontSize: 21)),
+                child: Image.network(repository.getBaseUrl("logo.php?name=")+_listRec[index].foto_merek),
               ),
             ),
           );

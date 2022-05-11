@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:otomax/home/discover.dart';
 import 'package:otomax/home/profile.dart';
-import 'package:otomax/main.dart';
 
 class HomePage extends StatefulWidget {
   @override
