@@ -28,6 +28,14 @@ class _CollectionsState extends State<Collections> {
       promoList = result;
     });
   }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getProductByPromo();
+    getProductByRecomendation();
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,9 +47,6 @@ class _CollectionsState extends State<Collections> {
             padding: EdgeInsets.all(10),
             child: GestureDetector(
               onTap: () {
-                setState(() {
-                  getProductByPromo();
-                });
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -55,9 +60,6 @@ class _CollectionsState extends State<Collections> {
             padding: EdgeInsets.all(10),
             child: GestureDetector(
                 onTap: () {
-                  setState(() {
-                    getProductByRecomendation();
-                  });
                   Navigator.push(
                       context,
                       MaterialPageRoute(
