@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:otomax/model/product.dart';
 import 'package:otomax/repository.dart';
@@ -20,11 +22,9 @@ class _ProfileState extends State<Profile> {
   List<ProductModel> _listProduct = [];
 
   Future<void> getDataWhislist()async{
-      final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
       final SharedPreferences prefs = await _prefs;
       List<String>? savedList;
-      int whislistCount = 0;
-
+      _listProduct.clear();
       if(prefs.getStringList('whislist') != null){
         savedList = prefs.getStringList('whislist');
         List<int> savedListInt = savedList!.map((e) => int.parse(e)).toList();
@@ -33,9 +33,10 @@ class _ProfileState extends State<Profile> {
         for(int i=0; i<savedList.length; i++){
           List <ProductModel> listProduct = await repository.getProductById(savedList[i].toString());
           setState(() {
-          _listProduct.add((listProduct[0]));
-        });
+            _listProduct.add((listProduct[0]));
+          });
         }
+        return;
       }
   }
 
@@ -51,6 +52,13 @@ class _ProfileState extends State<Profile> {
           whislistCount = savedListInt.length;
         });
       }
+  }
+
+  FutureOr onGoBack(){
+    setState(() {
+      getDataWhislist();
+      getCount();
+    });
   }
 
   @override
@@ -88,7 +96,7 @@ class _ProfileState extends State<Profile> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ProductList(productList: _listProduct, text: 'My Whislist',)));
+                        builder: (context) => ProductList(productList: _listProduct, text: 'My Whislist',))).then((value) => onGoBack());
                 }),
                 child: Text('Whislist (${whislistCount})',
                           style: blackTextStyle.copyWith(
@@ -118,7 +126,7 @@ class _ProfileState extends State<Profile> {
                               Navigator.of(context, rootNavigator: true).push(
                                 MaterialPageRoute(
                                   builder: (context) => DetailScreen(productModel: _listProduct[index]),
-                              ));
+                              )).then((value) => onGoBack());
                             }),
                             child: Image.network(repository.getBaseUrl("imageproduct.php?name=")+_listProduct[index].gambar_produk))),
                         ),
