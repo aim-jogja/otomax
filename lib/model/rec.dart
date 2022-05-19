@@ -5,14 +5,14 @@ class Rec {
   Rec({ 
     required this.id, 
     required this.merek,
-    required this.foto_merek,
+    required this.foto_merek
     });
   
   factory Rec.fromJson(Map<String, dynamic> json){
     return Rec(
-      id: int.parse(json['id']), 
+      id: (json['id']), 
       merek: json['merek'],
-      foto_merek: json['foto_merek']
+      foto_merek: json['foto_merek'] != null ? json['foto_merek'] : "rays.png" 
       );
   }
 }

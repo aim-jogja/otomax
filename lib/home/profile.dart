@@ -128,7 +128,7 @@ class _ProfileState extends State<Profile> {
                                   builder: (context) => DetailScreen(productModel: _listProduct[index]),
                               )).then((value) => onGoBack());
                             }),
-                            child: Image.network(repository.getBaseUrl("imageproduct.php?name=")+_listProduct[index].gambar_produk))),
+                            child: Image.network(repository.getImageUrl()+_listProduct[index].gambar_produk))),
                         ),
                     ),
                 );

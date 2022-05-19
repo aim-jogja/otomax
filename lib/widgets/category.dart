@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:otomax/model/product.dart';
 import 'package:otomax/repository.dart';
@@ -18,7 +20,6 @@ class _CategoryState extends State<Category> {
 
   getData() async{
     var temp = await repository.getCategory();
-    //print(temp);
     setState(() {
       _listRec = temp;
     });
@@ -48,9 +49,8 @@ class _CategoryState extends State<Category> {
               }),
               child: Padding(
                 padding: const EdgeInsets.all(15.0),
-                child: Image.network(repository.getBaseUrl("logo.php?name=")+_listRec[index].foto_merek),
-              ),
-            ),
+                child: Image.network(repository.getImageUrl()+_listRec[index].foto_merek),
+              ),)
           );
           },
         )

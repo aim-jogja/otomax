@@ -67,7 +67,7 @@ class _ProductByCategoryState extends State<ProductByCategory> {
                     builder: (context) => DetailScreen(productModel: listProduct[index]),
                   ));
             }),
-            child: Image.network(repository.getBaseUrl("imageproduct.php?name=")+listProduct[index].gambar_produk)),
+            child: Image.network(repository.getImageUrl()+listProduct[index].gambar_produk)),
         ),
         Padding(
             padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 6.0),

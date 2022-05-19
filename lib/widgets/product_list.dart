@@ -54,7 +54,7 @@ class _ProductListState extends State<ProductList> {
                     builder: (context) => DetailScreen(productModel: widget.productList[index]),
                   ));
             }),
-            child: Image.network(repository.getBaseUrl("imageproduct.php?name=")+widget.productList[index].gambar_produk)),
+            child: Image.network(repository.getImageUrl()+widget.productList[index].gambar_produk)),
         ),
         Padding(
             padding: const EdgeInsets.symmetric(vertical: 2.0, horizontal: 6.0),

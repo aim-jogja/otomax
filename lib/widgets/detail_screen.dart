@@ -17,6 +17,7 @@ class _DetailScreenState extends State<DetailScreen> {
   Repository repository = Repository();
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   Color iconColor = Colors.black45;
+  String categoryName = "";
 
   Future<void> isWhislist()async{
     final SharedPreferences prefs = await _prefs;
@@ -72,11 +73,19 @@ class _DetailScreenState extends State<DetailScreen> {
       }     
   }
 
+  getCategoryName(int id) async{
+    var result = await repository.getCategoryName(id);
+    setState(() {
+      categoryName = result;
+    });
+  }
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     isWhislist();
+    getCategoryName(int.parse(widget.productModel.kategori_produk.toString()));
   }
 
   @override
@@ -94,7 +103,7 @@ class _DetailScreenState extends State<DetailScreen> {
           children: <Widget>[
             Padding(
               padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-              child: Image.network(repository.getBaseUrl("imageproduct.php?name=")+widget.productModel.gambar_produk,)
+              child: Image.network(repository.getImageUrl()+widget.productModel.gambar_produk,)
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -128,7 +137,7 @@ class _DetailScreenState extends State<DetailScreen> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                  widget.productModel.kategori_produk.toString(),
+                  categoryName,
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black45)
                   ),
                 ],
